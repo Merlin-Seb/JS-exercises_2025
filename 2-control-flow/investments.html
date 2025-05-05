@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -58,25 +56,73 @@
         console.log("---------------------")
         console.log("PART 1...")
 
+        var balance = 150000
+        var year = 0
 
+        while(balance < 1000000){ // CONDITION
+            // ANNUAL ACCUMULATION OF THE BALANCE
+            year = year + 1
+            balance = balance * 1.08
+            console.log(year, balance)
+        }
 
-
+        console.log("DONE!")
+        console.log(year, balance)
 
 
         console.log("---------------------")
         console.log("PART 2...")
 
+        var balance = 150000
+        var year = 0
+        var rateGenerator = d3.randomNormal(0.08, 0.15)
 
+        while(balance < 1000000){ // CONDITION
+            // ANNUAL ACCUMULATION 
+            var rate = rateGenerator()
 
+            year = year + 1
+            balance = balance * (1 + rate)
+            console.log(year, balance)
+        }
 
-
+        console.log("DONE!")
+        console.log(year, balance)
 
         console.log("---------------------")
         console.log("PART 3...")
+        console.log("---------------------")
+console.log("PART 3...")
 
+document.getElementById("run-simulation").addEventListener("click", function() {
+    var initialBalance = parseFloat(document.getElementById("initial-balance").value)
+    var desiredBalance = parseFloat(document.getElementById("ending-balance").value)
+    var mean = parseFloat(document.getElementById("mean-return").value)
+    var stdDev = parseFloat(document.getElementById("std-dev").value)
 
+    var balance = initialBalance
+    var year = 0
+    var rateGenerator = d3.randomNormal(mean, stdDev)
+    var ratesUsed = []
 
+    while(balance < desiredBalance) {
+        var rate = rateGenerator()
+        ratesUsed.push(rate)
+        year += 1
+        balance *= (1 + rate)
+    }
 
+    var resultDiv = document.getElementById("simulation-result")
+    resultDiv.innerHTML = `
+        <p>Years: ${year}</p>
+        <p>Final Balance: ${formatUSD(balance)}</p>
+        <p>Annual Rates Used: ${ratesUsed.map(r => (r * 100).toFixed(2) + '%').join(', ')}</p>
+    `
+    console.log("Simulation complete!")
+    console.log("Years:", year)
+    console.log("Final Balance:", balance)
+    console.log("Rates Used:", ratesUsed)
+})
     </script>
 </body>
 </html>
